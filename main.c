@@ -2,7 +2,7 @@
 
 int main()
 {
-    randomGraph(10);
+    randomGraph(10, 0.3f);
 
     return 0;
 }
