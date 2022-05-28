@@ -2,3 +2,7 @@ main.exe
 main.o
 output.txt
 .vscode/**
+output/**
+output*/**
+hami.exe
+outputham.txt

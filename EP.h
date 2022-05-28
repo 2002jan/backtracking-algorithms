@@ -35,7 +35,7 @@ void findEulerCycle(int start)
 
         if (target != -1 && isValidEdge(start, target))
         {
-            printf("%d -> %d, ", start, target);
+            // printf("%d -> %d, ", start, target);
 
             removeUDEdge(start, target);
             findEulerCycle(target);

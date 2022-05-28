@@ -1,51 +1,43 @@
 #include "graphGen.h"
 #include "EP.h"
+#include <time.h>
+#include "csvExporter.h"
 
 int main()
 {
-    randomGraph(10, 0.5f);
 
-    int i;
+    int i, jp, jn = 6, runs = 10;
+    float j[] = {0.2, 0.3, 0.4, 0.6, 0.8, 0.95};
 
-    for(i = 0; i < AdjacencyListCount; i++)
+    int *ns;
+    double *times[jn];
+    ns = (int *)calloc(runs, sizeof(int));
+
+    for (jp = 0; jp < jn; jp++)
     {
-        ALI *start = AdjacencyList[i];
+        times[jp] = (double *)calloc(runs, sizeof(double));
 
-        printf("%d -> ", i);
-
-        while (start != NULL)
+        printf("\nEC for p=%f\n", j[jp]);
+        for (i = 1; i <= runs; i++)
         {
-            printf("%d, ", start->j);
+            int n = 25 * i;
+            ns[i - 1] = n;
+            randomGraph(n, j[jp]);
 
-            start = start->next;
+
+            clock_t begin = clock();
+            printEulerCycle();
+            clock_t end = clock();
+
+            times[jp][i - 1] = (double)(end - begin) / CLOCKS_PER_SEC * 1000;
+
+            printf("%d - %fms\n", n, times[jp][i - 1]);
+
+            freeAdjacencyList();
         }
-        printf("\n");
-        
     }
 
-    printf("\n\n");
-
-    printEulerCycle();
-
-    printf("\n\n");
-
-    for(i = 0; i < AdjacencyListCount; i++)
-    {
-        ALI *start = AdjacencyList[i];
-
-        printf("%d -> ", i);
-
-        while (start != NULL)
-        {
-            printf("%d, ", start->j);
-
-            start = start->next;
-        }
-        printf("\n");
-        
-    }
-
-    freeAdjacencyList();
+    exportToCsvEP(ns, times, j, runs, jn, "EG");
 
     return 0;
 }
