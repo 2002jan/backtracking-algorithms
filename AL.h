@@ -108,8 +108,7 @@ void removeALEdge(int i, int j)
 
     if (current->j == j)
     {
-        AdjacencyList[i] = current->next;
-        free(current);
+        current->j = -1;
         return;
     }
 
@@ -122,9 +121,7 @@ void removeALEdge(int i, int j)
     if (current == NULL)
         return;
     
-    prev->next = current->next;
-
-    free(current);
+    current->j = -1;
     
     return;
 }
@@ -145,7 +142,10 @@ int countEdges(int i)
 
     while (current != NULL)
     {
-        count++;
+        if (current->j != -1)
+        {
+            count++;
+        }
         current = current->next;
     }
 

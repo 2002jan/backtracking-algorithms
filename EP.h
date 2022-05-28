@@ -33,14 +33,14 @@ void findEulerCycle(int start)
     {
         int target = current->j;
 
-        if (isValidEdge(start, target))
+        if (target != -1 && isValidEdge(start, target))
         {
             printf("%d -> %d, ", start, target);
 
             removeUDEdge(start, target);
             findEulerCycle(target);
         }
-
+        
         current = current->next;
     }
     
@@ -76,7 +76,7 @@ int dfsCount(int v, int8_t *visited)
 
     while (current != NULL)
     {
-        if (!visited[current->j])
+        if (current->j != -1 && !visited[current->j])
             c = c + dfsCount(current->j, visited);
 
         current = current->next;

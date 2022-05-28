@@ -45,5 +45,7 @@ int main()
         
     }
 
+    freeAdjacencyList();
+
     return 0;
 }
