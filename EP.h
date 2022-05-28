@@ -61,7 +61,10 @@ int8_t isValidEdge(int start, int v)
     int c2 = dfsCount(start, visited);
     free(visited);
 
-    return (c1 > c2) ? 0 : 1;
+    if (c1 > c2)
+        return 0;
+    else
+        return 1;
 }
 
 int dfsCount(int v, int8_t *visited)

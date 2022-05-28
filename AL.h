@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+
 typedef struct AdjacencyListItem
 {
     int j;
