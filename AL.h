@@ -50,6 +50,12 @@ void addALEdge(int i, int j)
     return;
 }
 
+void addUDEdge(int i, int j)
+{
+    addALEdge(i, j);
+    addALEdge(j, i);
+}
+
 void freeAdjacencyList()
 {
     if (AdjacencyList == NULL)
@@ -87,6 +93,63 @@ uint8_t checkALEdge(int i, int j)
     }
 
     return 0;
+}
+
+void removeALEdge(int i, int j)
+{
+    if (AdjacencyList == NULL)
+        return;
+
+    if (AdjacencyList[i] == NULL)
+        return;
+
+    ALI *current = AdjacencyList[i], *prev;
+
+    if (current->j == j)
+    {
+        AdjacencyList[i] = current->next;
+        free(current);
+        return;
+    }
+
+    while (current != NULL && current->j != j)
+    {
+        prev = current;
+        current = current->next;
+    }
+
+    if (current == NULL)
+        return;
+    
+    prev->next = current->next;
+
+    free(current);
+    
+    return;
+}
+
+void removeUDEdge(int i, int j)
+{
+    removeALEdge(i, j);
+    removeALEdge(j, i);
+}
+
+int countEdges(int i)
+{
+    int count = 0;
+
+    ALI *current = AdjacencyList[i];
+
+    if (current == NULL) return count;
+
+    while (current != NULL)
+    {
+        count++;
+        current = current->next;
+    }
+
+    return count;
+    
 }
 
 #endif

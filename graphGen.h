@@ -3,43 +3,43 @@
 
 #include "AL.h"
 #include <stdio.h>
-#include<time.h>
+#include <time.h>
+#include <stdlib.h>
 
 void randomGraph(int n, float sat);
 int getMatrixIndex(int i, int j, int n);
 
 void randomGraph(int n, float sat)
 {
-    srand(time(0));
+    initAList(n);
 
-    if (n >= RAND_MAX)
+    char buffer[255];
+
+    sprintf(buffer, "python eug.py %d %0.2f", n, sat);
+    system(buffer);
+
+    FILE *outputFile = fopen("./output.txt", "r");
+
+    if (outputFile == NULL)
     {
-        printf("Matrix size not supported!\n");
+        printf("Could not open output.txt");
         exit(1);
     }
 
-    initAList(n);
-
     int i, j;
 
-    int8_t *aMatrix = calloc(n * n, sizeof(int8_t))
-
-    for (i = 1; i < n; i++)
+    while (1)
     {
-        j = rand() % i;
+        fgets(buffer, 255, outputFile);
 
-        addALEdge(i, j)
-        aMatrix[getMatrixIndex(i, j)] = 1;
+        sscanf(buffer, "%d -> %d", &i, &j);
+
+        if (i == -1 || j == -1)
+            break;
+
+        addALEdge(i, j);
+        addALEdge(j, i);
     }
-
-    free(aMatrix);
-}
-
-int getMatrixIndex(int i, int j, int n)
-{
-
-    return (n * i) + j;
-
 }
 
 #endif
